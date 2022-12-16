@@ -17,6 +17,8 @@
       crossorigin="anonymous"
     />
     <style src="./css/landingPage.css"></style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
   </head>
 
   <body>
@@ -94,7 +96,7 @@
       </div>
       <!-- This is where the cards will go -->
       <div class="container">
-        <div id="food-row" class="row"></div>
+        <div data-aos="fade-up"id="food-row" class="row"></div>
       </div>
     </main>
     <footer>
@@ -112,6 +114,10 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="./js/index.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>

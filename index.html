@@ -18,6 +18,10 @@
     />
     <style src="./css/landingPage.css"></style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script
+      src="https://kit.fontawesome.com/cd02e7bc45.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
 
   <body>
@@ -25,7 +29,9 @@
       <div class="collapse" id="navbarToggleExternalContent">
         <div class="bg-dark p-4">
           <h5 class="text-white h4">🍔 I'M HUNGRY</h5>
-          <a href="#" class="text-muted">Favorites</a>
+          <a href="#" class="text-muted"
+            ><i class="fa-solid fa-heart"></i> Favorites</a
+          >
         </div>
       </div>
       <nav class="navbar navbar-dark bg-dark">
@@ -75,7 +81,7 @@
                 </button>
               </li>
               <li>
-                <button class="dropdown-item" type="button">
+                <button class="dropdown-item" id="test">
                   Something else here
                 </button>
               </li>
@@ -90,7 +96,7 @@
               aria-label="Search"
             />
             <button id="searchButton" class="btn btn-outline-dark rounded-pill">
-              Search
+              <i class="fa-solid fa-magnifying-glass"></i>
             </button>
           </form>
         </div>

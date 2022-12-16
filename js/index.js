@@ -18,6 +18,7 @@ randomMealBtn.addEventListener('click', () => {
 	});
 });
 
+//category API call to get all categories and creates cars 
 categoriesBtn.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
 		.then(res => res.json())

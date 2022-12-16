@@ -34,6 +34,9 @@ searchButton.addEventListener('click', (e) => {
     const sanitizedDiv = sanitizer.sanitizeFor("div", searchBarData);
     console.log(sanitizedDiv.innerHTML)
 e.preventDefault()
+navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position.coords.latitude, position.coords.longitude);
+  });
 
 }) 
 

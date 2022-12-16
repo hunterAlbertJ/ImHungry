@@ -4,6 +4,10 @@
     border: solid black 1px;
     
 }
-.card{
-    data-aos: fade-up
+.dropdown{
+    margin: 1em;
+}
+#search-row{
+    display: flex;
+    justify-content: space-around;
 }

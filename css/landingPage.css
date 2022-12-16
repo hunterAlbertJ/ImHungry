@@ -2,6 +2,7 @@
 .card-img-top, .card {
     border-radius: 25%;
     border: solid black 1px;
+    padding: 1rem;
     
 }
 .dropdown{

@@ -1,10 +1,12 @@
 
 const randomMealBtn = document.getElementById("random-meal");
 const categoriesBtn = document.getElementById("categories-button")
+const filterCategory = document.getElementById("test");
 const foodRow = document.getElementById('food-row');
 const searchButton = document.getElementById("searchButton");
 
-//const category = "Seafood"
+//this can be used to store the input of the search. For now just a placeholder for testing. 
+const category = "Seafood"
 
 
 
@@ -13,7 +15,7 @@ randomMealBtn.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
 		.then(res => res.json())
 		.then(res => {
-        mealCard(res.meals[0]);
+        fullRecipe(res.meals[0]);
         console.log(res);
 	});
 });
@@ -25,6 +27,19 @@ categoriesBtn.addEventListener('click', () => {
 		.then(res => {
             console.log(res.categories)
         categoriesCard(res.categories);
+	});
+
+});
+
+//We can use this API call for searching category and this returns all foods in that category.
+filterCategory.addEventListener('click', () => {
+	fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+		.then(res => res.json())
+		.then(res => {
+            console.log(res)
+        for (let i = 0; i < res.meals.length; i++){
+            mealCard(res.meals[i]);
+        }
 	});
 
 });
@@ -50,38 +65,58 @@ const categoriesCard = (category) => {
         </div>
         </div>`;
 	
-        document.querySelector("#food-row").insertAdjacentHTML("beforeend", newCard);
+        foodRow.insertAdjacentHTML("afterbegin", newCard);
     }
 }
 
-const mealCard = (meal) => {
-	const ingredients = [];
-	// Get all ingredients from the object. Max 20
-	for(let i = 1; i <= 20; i++) {
+
+//This function creates a full recipe of a meal with all ingredients, video, instructions. 
+const fullRecipe = (meal) => {
+    const ingredients = [];
+	// Get all ingredients from the object. Up to 20
+	for(let i=1; i<=20; i++) {
 		if(meal[`strIngredient${i}`]) {
-			ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+			ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`)
 		} else {
-			break; //Loop will stop when no more indgredients.
+			// Stop if no more ingredients
+			break;
 		}
 	}
-	
-	const newCard = `
 
-        <div id=${meal.idMeal} class="card" style="width: 20rem;">
-        <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
-        <div class="card-body">
-            ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
-            ${meal.strArea ? `<strong>Area:</strong> ${meal.strArea}` : ""}
-        </div>
-        <ul class="list-group list-group-flush">
-            ${meal.strCategory ? `<li class="list-group-item"><strong>Category:</strong> ${meal.strCategory}</li>` : ""}
-            ${meal.strTags ? `<li class="list-group-item"><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</li>` : ""}
-        </ul>
-        <div class="card-body">
-            <a href="#" class="card-link">Full Recipe</a>
-            <a href="${meal.strYoutube}" target="_blank" class="card-link _blank">Video Recipe</a>
-        </div>
-        </div>`;
-	
-	foodRow.innerHTML = newCard;
+
+    const mealCard = ` <div class="col-md-6 mt-3 mb-3">
+    <h3>${meal.strMeal}</h3>
+    <img
+      src="${meal.strMealThumb}"
+      class="card-img-top"
+      alt="food image"
+    />
+    <div class="card-body">
+    ${meal.strCategory ? `<p><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
+    ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
+    ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
+    </div>
+  </div>
+  <div class="col-md-6 mt-3 mb-3">
+    <div>
+      <div class="card-body">
+      <h5>Ingredients:</h5>
+      <ul>
+      ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+      </ul>
+      <p class="card-text">${meal.strInstructions}</p>
+      ${meal.strYoutube ? `
+            <div class="text-center">
+                <h5>Video Recipe</h5>
+                <div class="videoWrapper">
+                    <iframe width="500" height="400"
+                    src="https://www.youtube.com/embed/${meal.strYoutube.slice(-11)}">
+                    </iframe>
+                </div>
+            </div>` : ''}
+      </div>
+    </div>
+  </div>
+  `;
+  foodRow.innerHTML = mealCard;
 }

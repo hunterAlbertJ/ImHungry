@@ -2,6 +2,8 @@
 const randomMealBtn = document.getElementById("random-meal");
 const categoriesBtn = document.getElementById("categories-button")
 const foodRow = document.getElementById('food-row');
+const searchButton = document.getElementById("searchButton");
+
 //const category = "Seafood"
 
 
@@ -25,6 +27,15 @@ categoriesBtn.addEventListener('click', () => {
 	});
 
 });
+
+searchButton.addEventListener('click', (e) => {
+    let searchBarData = document.getElementById("searchBar").value
+    const sanitizer = new Sanitizer();  // Default sanitizer;
+    const sanitizedDiv = sanitizer.sanitizeFor("div", searchBarData);
+    console.log(sanitizedDiv.innerHTML)
+e.preventDefault()
+
+}) 
 
 const categoriesCard = (category) => {
     for (let i = 1; i < category.length; i++){

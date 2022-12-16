@@ -1,4 +1,9 @@
 
 .card-img-top, .card {
     border-radius: 25%;
+    border: solid black 1px;
+    
+}
+.card{
+    data-aos: fade-up
 }

@@ -31,7 +31,7 @@ const categoriesCard = (category) => {
     for (let i = 1; i < category.length; i++){
         
         const newCard = `
-        <div id=${category[i].idCategory} class="card text-center mt-3" style="width: 20rem;">
+        <div data-aos="fade-up"id=${category[i].idCategory} class="card text-center mt-3" style="width: 20rem;">
         <img src="${category[i].strCategoryThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
         <div class="card-body">
             ${category[i].strCategory ? `<h5 class="card-title">${category[i].strCategory}</h5>` : ""}
@@ -56,7 +56,7 @@ const mealCard = (meal) => {
 	
 	const newCard = `
 
-        <div id=${meal.idMeal} class="card text-center mt-3" style="width: 20rem;">
+        <div id=${meal.idMeal} class="card" style="width: 20rem;">
         <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}

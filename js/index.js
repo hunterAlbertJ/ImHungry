@@ -16,7 +16,7 @@ randomMealBtn.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
 		.then(res => res.json())
 		.then(res => {
-
+            clearRow()
         addMealtoDataBase(res.meals[0]);
         fullRecipe(res.meals[0]);
         //console.log(res.meals[0].idMeal);
@@ -30,6 +30,7 @@ categoriesBtn.addEventListener('click', () => {
 		.then(res => {
          console.log(res.categories)
          //addMealtoDataBase(res.categories);
+         clearRow();
          for (let i = 1; i < res.categories.length; i++){
              categoriesCard(res.categories[i]);
          }
@@ -43,6 +44,7 @@ filterCategory.addEventListener('click', () => {
 		.then(res => res.json())
 		.then(res => {
             console.log(res.meals)
+            clearRow()
         for (let i = 0; i < res.meals.length; i++){
             mealCard(res.meals[i]);
         }
@@ -95,15 +97,6 @@ const mealCard = (meal) => {
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
             ${meal.strArea ? `<strong>Area:</strong> ${meal.strArea}` : ""}
-        </div>
-        <ul class="list-group list-group-flush">
-            ${meal.strCategory ? `<li class="list-group-item"><strong>Category:</strong> ${meal.strCategory}</li>` : ""}
-            ${meal.strTags ? `<li class="list-group-item"><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</li>` : ""}
-        </ul>
-        <div class="card-body">
-            <a class="card-link" onclick={}>Full Recipe</a>
-            ${meal.strYoutube ? `<a href="${meal.strYoutube}" target="_blank" class="card-link _blank">Video Recipe</a>` : ""}
-            
         </div>
         </div>
     </div>`;
@@ -178,7 +171,7 @@ function loadDataFromDB() {
   function addMealtoDataBase(mealData) {
     let data = loadDataFromDB();
 
-    //will find mealData in DB that matches incoming meal id. if cannot find will give undefined and push into db. 
+    //will find mealData in DB that matches incoming meal id. if cannot find will push into db.
     let mealInLocalStorage = data.find((data) => data.idMeal === mealData.idMeal); 
 
     if(!mealInLocalStorage){
@@ -186,4 +179,10 @@ function loadDataFromDB() {
     } 
     //save to database
     saveData(data);
+  }
+
+  function clearRow(){
+    while(foodRow.firstElementChild){
+        foodRow.firstElementChild.remove();
+    };
   }

@@ -153,13 +153,8 @@ const fullRecipe = (meal) => {
   }
 
 
-<<<<<<< HEAD
     const mealCard = ` <div class="col-md-6 mt-3 mb-3">
     <h3><br>${meal.strMeal}<br><br></h3>
-=======
-  const mealCard = ` <div data-aos="fade-up" class="col-md-6 mt-3 mb-3">
-    <h3>${meal.strMeal}</h3>
->>>>>>> 6ae69fe3775b45bf4568c7f409b0f89f06fe9c55
     <img
       src="${meal.strMealThumb}"
       class="card-img-top"

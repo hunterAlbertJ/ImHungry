@@ -1,91 +1,165 @@
 
+const MEAL_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
-const categoriesBtn = document.getElementById("categories-button")
+const categoriesBtn = document.getElementById("categories-button");
 const filterCategory = document.getElementById("test");
 const foodRow = document.getElementById('food-row');
 const searchButton = document.getElementById("searchButton");
 
-//this can be used to store the input of the search. For now just a placeholder for testing. 
-const category = "Seafood"
+//this can be used to store the input of the search. For now just a placeholder for testing.
+const category = "Seafood";
 
 
 
 //random API call to meal, returns a object and creates card. 
 randomMealBtn.addEventListener('click', () => {
-	fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
-		.then(res => res.json())
-		.then(res => {
-        fullRecipe(res.meals[0]);
-        console.log(res);
-	});
+  fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+    .then(res => res.json())
+    .then(res => {
+      clearRow()
+      addMealtoDataBase(res.meals[0]);
+      fullRecipe(res.meals[0]);
+      let toDelete = document.getElementById("pictures");
+      toDelete.innerHTML="";
+      //console.log(res.meals[0].idMeal);
+    });
 });
 
 //category API call to get all categories and creates cars 
 categoriesBtn.addEventListener('click', () => {
-	fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
-		.then(res => res.json())
-		.then(res => {
-            console.log(res.categories)
-        categoriesCard(res.categories);
-	});
+  fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
+    .then(res => res.json())
+    .then(res => {
+      console.log(res.categories)
+      clearRow();
+      for (let i = 1; i < res.categories.length; i++) {
+        categoriesCard(res.categories[i]);
+      }
+      let toDelete = document.getElementById("pictures");
+      toDelete.innerHTML="";
+    });
 
 });
 
 //We can use this API call for searching category and this returns all foods in that category.
 filterCategory.addEventListener('click', () => {
-	fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
-		.then(res => res.json())
-		.then(res => {
-            console.log(res)
-        for (let i = 0; i < res.meals.length; i++){
-            mealCard(res.meals[i]);
-        }
-	});
-
+  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+    .then(res => res.json())
+    .then(res => {
+      console.log(res.meals)
+      clearRow()
+      for (let i = 0; i < res.meals.length; i++) {
+        mealCard(res.meals[i]);
+      }
+    });
 });
 
 searchButton.addEventListener('click', (e) => {
-    let searchBarData = document.getElementById("searchBar").value
-    const sanitizer = new Sanitizer();  // Default sanitizer;
-    const sanitizedDiv = sanitizer.sanitizeFor("div", searchBarData);
-    console.log(sanitizedDiv.innerHTML)
-e.preventDefault()
+  let searchBarData = document.getElementById("searchBar").value
+  const sanitizer = new Sanitizer();  // Default sanitizer;
+  const sanitizedDiv = sanitizer.sanitizeFor("div", searchBarData);
+  console.log(sanitizedDiv.innerHTML)
+  e.preventDefault()
+  let toDelete = document.getElementById("pictures");
+      toDelete.innerHTML="";
 
-}) 
+})
 
+//this is to populate a card with category data. 
 const categoriesCard = (category) => {
-    for (let i = 1; i < category.length; i++){
-        
-        const newCard = `
-        <div data-aos="fade-up"id=${category[i].idCategory} class="card text-center mt-3" style="width: 20rem;">
-        <img src="${category[i].strCategoryThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
-        <div class="card-body">
-            ${category[i].strCategory ? `<h5 class="card-title">${category[i].strCategory}</h5>` : ""}
-            ${category[i].strCategoryDescription ? `<strong>Description:</strong> ${category[i].strCategoryDescription}` : ""}
+  console.log(category.strCategory)
+  const newCard =
+    `
+        <div id=${category.strCategory} class="card h-100 text-center" style="width: 100%;">
+            <img src="${category.strCategoryThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
+            <div class="card-body">
+                ${category.strCategory ? `<h5 class="card-title">${category.strCategory}</h5>` : ""}
+                ${category.strCategoryDescription ? `<strong>Description:</strong> ${category.strCategoryDescription}` : ""}
+            </div>
         </div>
-        </div>`;
-	
-        foodRow.insertAdjacentHTML("afterbegin", newCard);
-    }
+       `;
+  let test = document.createElement("div");
+  test.setAttribute("data-aos", "fade-up");
+  test.setAttribute("class", "col-md-3 col-sm-4 mt-2 mb-2")
+  test.addEventListener("click", () => {
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.strCategory}`)
+    .then(res => res.json())
+    .then(res => {
+      console.log(res.meals)
+      clearRow()
+      for (let i = 0; i < res.meals.length; i++) {
+        mealCard(res.meals[i]);
+      }
+    });
+  })
+  test.innerHTML = newCard;
+  foodRow.appendChild(test)
+
 }
 
 
+//this is to populate a card with meal data. 
+const mealCard = (meal) => {
+  const ingredients = [];
+  // Get all ingredients from the object. Max 20
+  for (let i = 1; i <= 20; i++) {
+    if (meal[`strIngredient${i}`]) {
+      ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+    } else {
+      break; //Loop will stop when no more indgredients.
+    }
+  }
+  console.log(meal.strMeal)
+  const newCard = `
+    
+        <div id=${meal.idMeal} class="card m-2" style="width: 20rem;">
+        <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
+        <div class="card-body">
+            ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
+            ${meal.strArea ? `<strong>Area:</strong> ${meal.strArea}` : ""}
+        </div>
+        </div>
+    `;
+
+
+
+  let mealCardIndividual = document.createElement("div");
+  mealCardIndividual.setAttribute("data-aos", "fade-up");
+  mealCardIndividual.setAttribute("class", "col-md-3 col-sm-4 mt-2 mb-2")
+  mealCardIndividual.addEventListener("click", () => {
+    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`)
+    .then(res => res.json())
+    .then(res => {
+      console.log(res.meals)
+      clearRow()
+      fullRecipe(res.meals[0]);
+    });
+  })
+  mealCardIndividual.innerHTML = newCard;
+  foodRow.appendChild(mealCardIndividual)
+}
+
 //This function creates a full recipe of a meal with all ingredients, video, instructions. 
 const fullRecipe = (meal) => {
-    const ingredients = [];
-	// Get all ingredients from the object. Up to 20
-	for(let i=1; i<=20; i++) {
-		if(meal[`strIngredient${i}`]) {
-			ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`)
-		} else {
-			// Stop if no more ingredients
-			break;
-		}
-	}
+  const ingredients = [];
+  // Get all ingredients from the object. Up to 20
+  for (let i = 1; i <= 20; i++) {
+    if (meal[`strIngredient${i}`]) {
+      ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`)
+    } else {
+      // Stop if no more ingredients
+      break;
+    }
+  }
 
 
+<<<<<<< HEAD
     const mealCard = ` <div class="col-md-6 mt-3 mb-3">
     <h3><br>${meal.strMeal}<br><br></h3>
+=======
+  const mealCard = ` <div data-aos="fade-up" class="col-md-6 mt-3 mb-3">
+    <h3>${meal.strMeal}</h3>
+>>>>>>> 6ae69fe3775b45bf4568c7f409b0f89f06fe9c55
     <img
       src="${meal.strMealThumb}"
       class="card-img-top"
@@ -146,3 +220,37 @@ const fullRecipe = (meal) => {
   `;
   foodRow.innerHTML = mealCard;
 }
+
+
+function loadDataFromDB() {
+  let data = JSON.parse(localStorage.getItem(MEAL_KEY));
+  if (!data) {
+    data = [];
+  }
+  return data;
+}
+
+function saveData(data) {
+  localStorage.setItem(MEAL_KEY, JSON.stringify(data));
+}
+
+function addMealtoDataBase(mealData) {
+  let data = loadDataFromDB();
+
+  //will find mealData in DB that matches incoming meal id. if cannot find will push into db.
+  let mealInLocalStorage = data.find((data) => data.idMeal === mealData.idMeal);
+
+  if (!mealInLocalStorage) {
+    data.push(mealData);
+  }
+  //save to database
+  saveData(data);
+}
+
+//clears the row that hold the cards for new results to be shown. 
+function clearRow() {
+  while (foodRow.firstElementChild) {
+    foodRow.firstElementChild.remove();
+  };
+}
+

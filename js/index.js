@@ -28,8 +28,7 @@ categoriesBtn.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
 		.then(res => res.json())
 		.then(res => {
-         console.log(res.categories)
-         //addMealtoDataBase(res.categories);
+         //console.log(res.categories)
          clearRow();
          for (let i = 1; i < res.categories.length; i++){
              categoriesCard(res.categories[i]);
@@ -181,6 +180,7 @@ function loadDataFromDB() {
     saveData(data);
   }
 
+  //clears the row that hold the cards for new results to be shown. 
   function clearRow(){
     while(foodRow.firstElementChild){
         foodRow.firstElementChild.remove();

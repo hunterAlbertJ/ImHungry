@@ -22,7 +22,7 @@
         "centerMarker": {"icon":"circle"},
         "mapRadius": 2000,
         "mapOptions": {"center":{"lat":48.8773,"lng":2.33},"fullscreenControl":true,"mapTypeControl":true,"streetViewControl":false,"zoom":16,"zoomControl":true,"maxZoom":20,"mapId":""},
-        "mapsApiKey": APIKEY
+        "mapsApiKey": ''
       };
 
       async function initMap() {
@@ -234,7 +234,7 @@
     </div>
     <div id="map"></div>
 
-    <script src="`https://maps.googleapis.com/maps/api/js?key=${APIKEY}&callback=initMap&libraries=places,geometry&solution_channel=GMP_QB_neighborhooddiscovery_v2_cABCDEF`" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap&libraries=places,geometry&solution_channel=GMP_QB_neighborhooddiscovery_v2_cABCDEF" async defer></script>
     <script>
  let map;
 let service;

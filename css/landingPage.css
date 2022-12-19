@@ -1,9 +1,12 @@
 
-.card-img-top, .card {
+.card .h-100 {
+    margin: 1rem;
+}
+
+.card-img-top {
     border-radius: 25%;
     border: solid black 1px;
     padding: 1rem;
-    
 }
 .dropdown{
     margin: 1em;

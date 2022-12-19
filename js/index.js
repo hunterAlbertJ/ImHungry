@@ -1,12 +1,13 @@
 
+const MEAL_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
-const categoriesBtn = document.getElementById("categories-button")
+const categoriesBtn = document.getElementById("categories-button");
 const filterCategory = document.getElementById("test");
 const foodRow = document.getElementById('food-row');
 const searchButton = document.getElementById("searchButton");
 
-//this can be used to store the input of the search. For now just a placeholder for testing. 
-const category = "Seafood"
+//this can be used to store the input of the search. For now just a placeholder for testing.
+const category = "Seafood";
 
 
 
@@ -15,8 +16,10 @@ randomMealBtn.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
 		.then(res => res.json())
 		.then(res => {
+
+        addMealtoDataBase(res.meals[0]);
         fullRecipe(res.meals[0]);
-        console.log(res);
+        //console.log(res.meals[0].idMeal);
 	});
 });
 
@@ -25,8 +28,11 @@ categoriesBtn.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`)
 		.then(res => res.json())
 		.then(res => {
-            console.log(res.categories)
-        categoriesCard(res.categories);
+         console.log(res.categories)
+         //addMealtoDataBase(res.categories);
+         for (let i = 1; i < res.categories.length; i++){
+             categoriesCard(res.categories[i]);
+         }
 	});
 
 });
@@ -36,12 +42,11 @@ filterCategory.addEventListener('click', () => {
 	fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
 		.then(res => res.json())
 		.then(res => {
-            console.log(res)
+            console.log(res.meals)
         for (let i = 0; i < res.meals.length; i++){
             mealCard(res.meals[i]);
         }
 	});
-
 });
 
 searchButton.addEventListener('click', (e) => {
@@ -53,22 +58,58 @@ e.preventDefault()
 
 }) 
 
+//this is to populate a card with category data. 
 const categoriesCard = (category) => {
-    for (let i = 1; i < category.length; i++){
-        
-        const newCard = `
-        <div data-aos="fade-up"id=${category[i].idCategory} class="card text-center mt-3" style="width: 20rem;">
-        <img src="${category[i].strCategoryThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
-        <div class="card-body">
-            ${category[i].strCategory ? `<h5 class="card-title">${category[i].strCategory}</h5>` : ""}
-            ${category[i].strCategoryDescription ? `<strong>Description:</strong> ${category[i].strCategoryDescription}` : ""}
+        const newCard = 
+        `<div data-aos="fade-up" class="col-md-3 col-sm-4 mt-2 mb-2">
+        <div id=${category.idCategory} class="card h-100 text-center" style="width: 20rem;">
+            <img src="${category.strCategoryThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
+            <div class="card-body">
+                ${category.strCategory ? `<h5 class="card-title">${category.strCategory}</h5>` : ""}
+                ${category.strCategoryDescription ? `<strong>Description:</strong> ${category.strCategoryDescription}` : ""}
+            </div>
         </div>
         </div>`;
 	
-        foodRow.insertAdjacentHTML("afterbegin", newCard);
-    }
+        foodRow.insertAdjacentHTML("beforeend", newCard);
+    
 }
 
+
+//this is to populate a card with meal data. 
+const mealCard = (meal) => {
+	const ingredients = [];
+	// Get all ingredients from the object. Max 20
+	for(let i = 1; i <= 20; i++) {
+		if(meal[`strIngredient${i}`]) {
+			ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+		} else {
+			break; //Loop will stop when no more indgredients.
+		}
+	}
+	
+	const newCard = `
+    <div data-aos="fade-up" class="col-md-3 col-sm-6">
+        <div id=${meal.idMeal} class="card m-2" style="width: 20rem;">
+        <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
+        <div class="card-body">
+            ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
+            ${meal.strArea ? `<strong>Area:</strong> ${meal.strArea}` : ""}
+        </div>
+        <ul class="list-group list-group-flush">
+            ${meal.strCategory ? `<li class="list-group-item"><strong>Category:</strong> ${meal.strCategory}</li>` : ""}
+            ${meal.strTags ? `<li class="list-group-item"><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</li>` : ""}
+        </ul>
+        <div class="card-body">
+            <a class="card-link" onclick={}>Full Recipe</a>
+            ${meal.strYoutube ? `<a href="${meal.strYoutube}" target="_blank" class="card-link _blank">Video Recipe</a>` : ""}
+            
+        </div>
+        </div>
+    </div>`;
+	
+        foodRow.insertAdjacentHTML("beforeend", newCard);
+}
 
 //This function creates a full recipe of a meal with all ingredients, video, instructions. 
 const fullRecipe = (meal) => {
@@ -84,7 +125,7 @@ const fullRecipe = (meal) => {
 	}
 
 
-    const mealCard = ` <div class="col-md-6 mt-3 mb-3">
+    const mealCard = ` <div data-aos="fade-up" class="col-md-6 mt-3 mb-3">
     <h3>${meal.strMeal}</h3>
     <img
       src="${meal.strMealThumb}"
@@ -120,3 +161,29 @@ const fullRecipe = (meal) => {
   `;
   foodRow.innerHTML = mealCard;
 }
+
+
+function loadDataFromDB() {
+    let data = JSON.parse(localStorage.getItem(MEAL_KEY));
+    if (!data) {
+      data = [];
+    }
+    return data;
+  }
+
+  function saveData(data) {
+    localStorage.setItem(MEAL_KEY, JSON.stringify(data));
+  }
+
+  function addMealtoDataBase(mealData) {
+    let data = loadDataFromDB();
+
+    //will find mealData in DB that matches incoming meal id. if cannot find will give undefined and push into db. 
+    let mealInLocalStorage = data.find((data) => data.idMeal === mealData.idMeal); 
+
+    if(!mealInLocalStorage){
+        data.push(mealData);
+    } 
+    //save to database
+    saveData(data);
+  }

@@ -1,4 +1,5 @@
 
+  
 .card-img-top, .card {
     border-radius: 25%;
     border: solid black 1px;
@@ -12,3 +13,4 @@
     display: flex;
     justify-content: space-around;
 }
+

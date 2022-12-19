@@ -118,7 +118,7 @@ const fullRecipe = (meal) => {
 
 
     const mealCard = ` <div data-aos="fade-up" class="col-md-6 mt-3 mb-3">
-    <h3>${meal.strMeal}</h3>
+    <h3>${meal.strMeal} <a onclick={favoriteClicked()}><i id="heartButton" style="color: white" class="fa-solid fa-heart"></i></a></h3>
     <img
       src="${meal.strMealThumb}"
       class="card-img-top"
@@ -185,4 +185,20 @@ function loadDataFromDB() {
     while(foodRow.firstElementChild){
         foodRow.firstElementChild.remove();
     };
+  }
+
+  function favoriteClicked(e){
+    console.log("favorite clicked");
+    console.log(e); 
+    let heartColor = document.getElementById("heartButton");
+
+    if (heartColor.style.color === "white"){
+        heartColor.style.color = "red";
+        //add liked meal to database
+        
+    } else {
+        heartColor.style.color = "white";
+        //remove unliked meal from database
+
+    }
   }

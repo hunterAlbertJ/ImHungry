@@ -85,26 +85,52 @@ const fullRecipe = (meal) => {
 
 
     const mealCard = ` <div class="col-md-6 mt-3 mb-3">
-    <h3>${meal.strMeal}</h3>
+    <h3><br>${meal.strMeal}<br><br></h3>
     <img
       src="${meal.strMealThumb}"
       class="card-img-top"
       alt="food image"
     />
     <div class="card-body">
-    ${meal.strCategory ? `<p><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
+    ${meal.strCategory ? `<p><br><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
     ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
     ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
     </div>
   </div>
+
+  <style>
+    h5{
+        color: blue;
+    }  
+    h3{
+        font-style: italic;
+        font-size: 40px;
+    }
+    ul{
+        color: darkblue;
+        list-style-type: none;
+        columns:100px 2;
+
+    }
+    p{
+        color: white;
+        font-size:25px;
+    }
+    p1{
+        color:blue;
+    }
+  </style>
+
   <div class="col-md-6 mt-3 mb-3">
-    <div>
+    <div class="card" style="height: auto">
       <div class="card-body">
       <h5>Ingredients:</h5>
       <ul>
       ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
       </ul>
-      <p class="card-text">${meal.strInstructions}</p>
+      <p1 class="card-text">${meal.strInstructions}</p1>
+      <br>
+      <br>
       ${meal.strYoutube ? `
             <div class="text-center">
                 <h5>Video Recipe</h5>

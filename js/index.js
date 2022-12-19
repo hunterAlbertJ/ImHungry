@@ -222,3 +222,4 @@ function clearRow() {
     foodRow.firstElementChild.remove();
   };
 }
+

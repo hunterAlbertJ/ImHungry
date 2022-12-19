@@ -1,10 +1,10 @@
 
-const MEAL_KEY = "MealKey";
+const FAV_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
 const categoriesBtn = document.getElementById("categories-button");
-const filterCategory = document.getElementById("test");
 const foodRow = document.getElementById('food-row');
 const searchButton = document.getElementById("searchButton");
+const favoriteButton = document.getElementById("favorite-button");
 
 //this can be used to store the input of the search. For now just a placeholder for testing.
 const category = "Seafood";
@@ -17,7 +17,6 @@ randomMealBtn.addEventListener('click', () => {
     .then(res => res.json())
     .then(res => {
       clearRow()
-      addMealtoDataBase(res.meals[0]);
       fullRecipe(res.meals[0]);
       let toDelete = document.getElementById("pictures");
       toDelete.innerHTML="";
@@ -42,17 +41,16 @@ categoriesBtn.addEventListener('click', () => {
 });
 
 //We can use this API call for searching category and this returns all foods in that category.
-filterCategory.addEventListener('click', () => {
-  fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
-    .then(res => res.json())
-    .then(res => {
-      console.log(res.meals)
-      clearRow()
-      for (let i = 0; i < res.meals.length; i++) {
-        mealCard(res.meals[i]);
+favoriteButton.addEventListener('click', () => {
+    let data = loadDataFromDB();
+    clearRow()
+      for (let i = 0; i < data.length; i++) {
+        mealCard(data[i]);
       }
+      let toDelete = document.getElementById("pictures");
+      toDelete.innerHTML="";
     });
-});
+
 
 searchButton.addEventListener('click', (e) => {
   let searchBarData = document.getElementById("searchBar").value
@@ -112,7 +110,7 @@ const mealCard = (meal) => {
   console.log(meal.strMeal)
   const newCard = `
     
-        <div id=${meal.idMeal} class="card m-2" style="width: 20rem;">
+        <div id=${meal.idMeal} class="card" style="width: 18rem;">
         <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
@@ -125,7 +123,7 @@ const mealCard = (meal) => {
 
   let mealCardIndividual = document.createElement("div");
   mealCardIndividual.setAttribute("data-aos", "fade-up");
-  mealCardIndividual.setAttribute("class", "col-md-3 col-sm-4 mt-2 mb-2")
+  mealCardIndividual.setAttribute("class", "col-md-3 col-sm-4 col-lg-3 mt-2 mb-2")
   mealCardIndividual.addEventListener("click", () => {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${meal.idMeal}`)
     .then(res => res.json())
@@ -141,6 +139,13 @@ const mealCard = (meal) => {
 
 //This function creates a full recipe of a meal with all ingredients, video, instructions. 
 const fullRecipe = (meal) => {
+    let colorOfHeart = "white";
+    let data = loadDataFromDB();
+    for (let i = 0; i < data.length; i++){
+        if (data[i].strMeal === meal.strMeal){
+            colorOfHeart = "red";
+        }
+    }
   const ingredients = [];
   // Get all ingredients from the object. Up to 20
   for (let i = 1; i <= 20; i++) {
@@ -153,8 +158,8 @@ const fullRecipe = (meal) => {
   }
 
 
-    const mealCard = ` <div data-aos="fade-up" class="col-md-6 mt-3 mb-3">
-    <h3>${meal.strMeal} <a onclick={favoriteClicked()}><i id="heartButton" style="color: white" class="fa-solid fa-heart"></i></a></h3>
+    const mealCard = ` <div id=${meal.idMeal} data-aos="fade-up" class="col-md-6 mt-3 mb-3">
+    <h3>${meal.strMeal} <a><i onclick={favoriteClicked(this)} id="heartButton" style="color: ${colorOfHeart}" class="fa-solid fa-heart"></i></a></h3>
     <img
       src="${meal.strMealThumb}"
       class="card-img-top"
@@ -192,7 +197,7 @@ const fullRecipe = (meal) => {
 
 
 function loadDataFromDB() {
-  let data = JSON.parse(localStorage.getItem(MEAL_KEY));
+  let data = JSON.parse(localStorage.getItem(FAV_KEY));
   if (!data) {
     data = [];
   }
@@ -200,7 +205,7 @@ function loadDataFromDB() {
 }
 
 function saveData(data) {
-  localStorage.setItem(MEAL_KEY, JSON.stringify(data));
+  localStorage.setItem(FAV_KEY, JSON.stringify(data));
 }
 
 function addMealtoDataBase(mealData) {
@@ -237,17 +242,24 @@ function addMealtoDataBase(mealData) {
   }
 
   function favoriteClicked(e){
-    console.log("favorite clicked");
-    console.log(e); 
+   
     let heartColor = document.getElementById("heartButton");
-
+    
+    let mealId = (heartColor.parentElement.parentElement.parentElement.id);
+   
     if (heartColor.style.color === "white"){
         heartColor.style.color = "red";
         //add liked meal to database
+        fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`)
+        .then(res => res.json())
+        .then(res => {
+        addMealtoDataBase(res.meals[0]);
+    });
         
     } else {
         heartColor.style.color = "white";
-        //remove unliked meal from database
-
+        let data = loadDataFromDB();
+        data = data.filter((meal) => meal.idMeal !== mealId);
+        saveData(data);
     }
   }

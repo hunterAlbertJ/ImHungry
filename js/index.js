@@ -172,16 +172,19 @@ const fullRecipe = (meal) => {
     </div>
   </div>
 
+  
   <style>
-    h5{
-        color: blue;
+    h5{ 
+        color: #9900ff;
+        font-size: 25px;
+        font-style: italic;
     }  
     h3{
         font-style: italic;
         font-size: 40px;
     }
     ul{
-        color: darkblue;
+        color: #9900cc;
         list-style-type: none;
         columns:100px 2;
 
@@ -191,23 +194,23 @@ const fullRecipe = (meal) => {
         font-size:25px;
     }
     p1{
-        color:blue;
+        color: #990099;
     }
   </style>
 
   <div class="col-md-6 mt-3 mb-3">
     <div class="card" style="height: auto">
       <div class="card-body">
-      <h5>Ingredients:</h5>
+      <h5>Ingredients:<hr></h5>
       <ul>
       ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
       </ul>
+      <hr>
       <p1 class="card-text">${meal.strInstructions}</p1>
-      <br>
-      <br>
+      <hr>
       ${meal.strYoutube ? `
             <div class="text-center">
-                <h5>Video Recipe</h5>
+                <h5>Video Recipe:</h5>
                 <div class="videoWrapper">
                     <iframe width="500" height="400"
                     src="https://www.youtube.com/embed/${meal.strYoutube.slice(-11)}">

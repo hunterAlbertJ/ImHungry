@@ -104,14 +104,14 @@ const mealCard = (meal) => {
     if (meal[`strIngredient${i}`]) {
       ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
     } else {
-      break; //Loop will stop when no more indgredients.
+      break; //Loop will stop when no more ingredients.
     }
   }
   console.log(meal.strMeal)
   const newCard = `
     
         <div id=${meal.idMeal} class="card" style="width: 18rem;">
-        <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
+        <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="image of meal">
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
             ${meal.strArea ? `<strong>Area:</strong> ${meal.strArea}` : ""}
@@ -159,29 +159,45 @@ const fullRecipe = (meal) => {
 
 
     const mealCard = ` <div class="col-md-6 mt-3 mb-3">
-    <h3><br>${meal.strMeal}<br><br></h3>
+    <h3><br><font color="#990099">${meal.strMeal}<br><br></font></h3>
     <img
       src="${meal.strMealThumb}"
       class="card-img-top"
       alt="food image"
     />
-    <div class="card-body">
-    ${meal.strCategory ? `<p><br><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
-    ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
-    ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
+    
+    <div class="card-body1">
+      ${meal.strCategory ? `<p><strong><font color="#990099">Category:</strong> ${meal.strCategory}</font></p>` : ''}
+      ${meal.strArea ? `<p><strong><font color="#990099">Area:</strong> ${meal.strArea}</font></p>` : ''}
+      ${meal.strTags ? `<p><strong><font color="#990099">Tags:</strong> ${meal.strTags.split(',').join(', ')}</font><br></p>` : ''}
     </div>
+
   </div>
 
   
   <style>
+  .card-body1{
+    background-color:white;
+    width: 500;
+    height: auto;
+    padding:2px;
+    border-radius: 5px;
+    margin-top:5px
+}
     h5{ 
         color: #9900ff;
         font-size: 25px;
         font-style: italic;
     }  
     h3{
-        font-style: italic;
-        font-size: 40px;
+      background-color:white;
+      width: 500;
+      height: auto;
+      padding:2px;
+      border-radius: 5px;
+      margin-top:5px
+      font-style: italic;
+      font-size: 50px;
     }
     ul{
         color: #9900cc;
@@ -196,6 +212,7 @@ const fullRecipe = (meal) => {
     p1{
         color: #990099;
     }
+
   </style>
 
   <div class="col-md-6 mt-3 mb-3">

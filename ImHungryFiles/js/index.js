@@ -1,6 +1,9 @@
 // import { addMap } from "../MapsApi/mapsRenderer.js";
 
 
+
+
+// 1000
 const FAV_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
 const categoriesBtn = document.getElementById("categories-button");
@@ -273,6 +276,7 @@ div.appendChild(test);
   let foodRow = document.getElementById("food-row");
   foodRow.appendChild(mapFrame)
   })
+  evalPantry(ingredients);
 
 }
 
@@ -308,7 +312,58 @@ function indivudalSearch(){
 
 
 }
+function evalPantry(ingredients){
+  console.log(ingredients)
+let pantryArr = ['test', 'test2'];
+if(JSON.parse(localStorage.getItem("pantry") === null)){
+  console.log("nothing here")
+  localStorage.setItem("pantry", JSON.stringify(pantryArr));
+} else{
+  console.log(JSON.parse(localStorage.getItem("pantry")))
+  ingredients.forEach(element => {
+    let ingArr =[]
+   ingArr.push(element.split("-")[0])
+   let temp = (element.split("-")[1])
+   let temp2 = temp.split(" ")
+   temp2.shift()
+   ingArr.push(temp2)
+   ingArr = (ingArr.flat())
+   if(ingArr[ingArr.length] === " "){
+    ingArr.pop()
+   }
+   //console.log(ingArr)
+   // console.log(temp)
+   let fractionReg = /[\u00BC-\u00BE\u2150-\u215E]/g
+   let numReg = /[0-9]/g
 
+   if(ingArr[1].match(numReg)){
+    console.log("number here", ingArr[1])
+    if(ingArr[1].includes("/")){
+      let numHolderArr = ingArr[1].split("");
+      console.log(numHolderArr)
+      console.log(numHolderArr[0]/numHolderArr[2])
+    }
+   }
+   if(ingArr[2] !== undefined){
+    
+    let toMatch = ingArr[2]
+
+    if(toMatch.match(fractionReg)){
+      
+      let deunicode = toMatch.normalize("NFKD");
+      console.log(deunicode, 'deunize')
+      let holderArr = deunicode.split("⁄")
+      let secondIntHolder = holderArr[0]/holderArr[1]
+      let totalAmount = secondIntHolder + parseInt(ingArr[1])
+     console.log(convert(totalAmount).from('tbs').to('g'));
+    }
+   }
+   
+
+
+  });
+}
+}
 
 function loadDataFromDB() {
   let data = JSON.parse(localStorage.getItem(FAV_KEY));

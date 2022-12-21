@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "aos": "^2.3.4"
+    "aos": "^2.3.4",
+    "browserify": "^17.0.0",
+    "convert-units": "^2.3.4",
+    "recipe-unit-converter": "^2.3.3"
   }
 }

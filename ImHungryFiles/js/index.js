@@ -177,23 +177,19 @@ const fullRecipe = (meal) => {
   </div>
 
   <style>
-  body{
-    background-color: black;
-  }
-    span{
-      color: black;
-    }
-    h5{
-        color: black;
+    h5{ 
+        color: #9900ff;
+        font-size: 25px;
+        font-style: italic;
     }  
     h3{
         font-style: italic;
         font-size: 40px;
     }
     ul{
-        color: black;
+        color: #9900cc;
         list-style-type: none;
-       
+        columns:100px 2;
 
     }
     p{
@@ -201,7 +197,7 @@ const fullRecipe = (meal) => {
         font-size:25px;
     }
     p1{
-        color:black;
+        color: #990099;
     }
   </style>
 

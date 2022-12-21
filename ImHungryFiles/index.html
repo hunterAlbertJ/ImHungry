@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head id="head">
-    <title>Title</title>
+    <title>Hungry?</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <script  src="MapsApi/mapsRenderer.js" defer ></script>
@@ -39,13 +39,30 @@
         background-image: url(https://images.genius.com/ecaa7845c922a38d2ae94766fe21c43c.480x270x96.gif);
         background-repeat: no-repeat;
         background-size: cover;
-        background-color: black;
     }
 
     h1,h3,span {
       color:white;
     }
-    
+    .team-name{
+      border-radius: 10px;
+      background-color:white;
+      
+    }
+    .team-front{
+      border-radius:5px;
+      overflow:hidden;
+    }
+
+    .team-back{
+      background-color:white;
+      width: 500;
+      height: 70px;
+      padding:2px;
+      border-radius: 10px;
+      margin-top:0px;
+      margin-bottom:15px;
+    }
   </style>
 
   <body>
@@ -54,9 +71,9 @@
 
       <div class="container mb-3 mt-3 text-center">
         
-        <h1>I'm Hungry!</h1>
+        <h1>I'm Hungry! 🍔</h1>
 
-      <div class="container">
+      <div class="container-fluid">
 	      <div class="row" id="pictures">
 	
 	      <!--Member-1-->
@@ -64,13 +81,16 @@
 	        <div class="our-team-main">
 	        <div class="team-front">
 	          <img src="https://media.licdn.com/dms/image/C4D03AQG0jyupm1C0EQ/profile-displayphoto-shrink_400_400/0?e=1677110400&v=beta&t=FrM589QKtVveuB_HQnydHESAGlwKxqyx4hmnIYHqKyw" style="border-radius: 5%" />
-	          <h3>Hunter Albert</h3>
-	          <p><span>Amazon Photos</p>
+	          <div class="team-name">
+              <h3><font color="#990099">Hunter Albert</font></h3>
+	            <p><span><font color="#990099">Amazon Photos</font></p>
+            </div>
 	        </div>
 	
 	      <div class="team-back">
-	      <span>
-	        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis 
+          <span><font color="#990099">
+            Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. 
+          </font>
 	      </span>
 	    </div>
 	
@@ -84,14 +104,16 @@
     
     <div class="team-front">
     <img src="https://media.licdn.com/dms/image/C4E03AQGJz-oLnG4SnA/profile-displayphoto-shrink_400_400/0?e=1677110400&v=beta&t=ypaTuDu5cMoM50TUHaTDXzu-FhhVXhW-FwIbPdMThPc" style="border-radius: 5%" />
-    <h3>Aeron Inouye</h3>
-    <p><span>Amazon PXT</p>
-
+    <div class="team-name">
+      <h3><font color="#990099">Aeron Inouye</font></h3>
+      <p><span><font color="#990099">Amazon PXT</font></p>
+    </div>
     </div>
     
     <div class="team-back">
-      <span>
+      <span><font color="#990099">
         Sushi, Ramen, Korean BBQ, Pho, and Chick-fil-A Spicy Chicken Sandwich.  
+      </font>
       </span>
     </div>
     
@@ -105,13 +127,17 @@
     
     <div class="team-front">
     <img src="https://media.licdn.com/dms/image/D5603AQFpEu9zytxNAg/profile-displayphoto-shrink_400_400/0/1671391260310?e=1677110400&v=beta&t=WzxfnhpFLKZ0zMq1BSm8XKWWBmEJVGVOrJ3QfXAAX9Q" style="border-radius: 5%" />
-    <h3>David Monahan</h3>
-    <p><span>Amazon Core</p>
+    <div class="team-name">
+      <h3><font color="#990099">David Monahan</font></h3>
+      <p><span><font color="#990099">Amazon Core</font></p>
+    </div>
     </div>
     
     <div class="team-back">
       <span>
-        Kansas City Burnt Ends, Memphis Style Pork Ribs, Carolina Style WholeHog, Texas Style Beef Ribs and two sides. 
+        <font color="#990099">
+        Kansas City Burnt Ends, Memphis Style Ribs, Carolina Style Pork, Texas Style Beef Ribs and two sides. 
+      </font>
       </span>
     </div>
     

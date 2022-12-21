@@ -160,11 +160,14 @@ const fullRecipe = (meal) => {
 
     const mealCard = ` <div class="col-md-6 mt-3 mb-3">
     <h3><br><font color="#990099">${meal.strMeal}<br><br></font></h3>
-    <img
-      src="${meal.strMealThumb}"
-      class="card-img-top"
-      alt="food image"
-    />
+
+    <div class="card-image">
+      <img
+        src="${meal.strMealThumb}"
+        class="card-img-top"
+        alt="food image"
+      />
+    </div>
     
     <div class="card-body1">
       ${meal.strCategory ? `<p><strong><font color="#990099">Category:</strong> ${meal.strCategory}</font></p>` : ''}
@@ -176,19 +179,28 @@ const fullRecipe = (meal) => {
 
   
   <style>
-  .card-body1{
-    background-color:white;
-    width: 500;
-    height: auto;
-    padding:2px;
-    border-radius: 5px;
-    margin-top:5px
-}
+  
+  
+    .card-image{
+      border-radius:5px;
+      overflow:hidden;
+    }
+  
+    .card-body1{
+      background-color:white;
+      width: 500;
+      height: auto;
+      padding:2px;
+      border-radius: 5px;
+      margin-top:5px
+    }
+
     h5{ 
-        color: #9900ff;
-        font-size: 25px;
-        font-style: italic;
-    }  
+      color: #9900ff;
+      font-size: 25px;
+      font-style: italic;
+    }
+
     h3{
       background-color:white;
       width: 500;
@@ -199,22 +211,24 @@ const fullRecipe = (meal) => {
       font-style: italic;
       font-size: 50px;
     }
+    
     ul{
         color: #9900cc;
         list-style-type: none;
         columns:100px 2;
-
     }
+
     p{
         color: white;
         font-size:25px;
     }
+
     p1{
         color: #990099;
     }
 
   </style>
-
+  
   <div class="col-md-6 mt-3 mb-3">
     <div class="card" style="height: auto">
       <div class="card-body">

@@ -308,6 +308,8 @@ function indivudalSearch(){
 
 
 }
+
+
 function loadDataFromDB() {
   let data = JSON.parse(localStorage.getItem(FAV_KEY));
   if (!data) {

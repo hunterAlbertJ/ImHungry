@@ -113,7 +113,7 @@ const mealCard = (meal) => {
   console.log(meal.strMeal)
   const newCard = `
     
-        <div id=${meal.idMeal} class="card h-100" style="width: 18rem;">
+        <div id=${meal.idMeal} class="card h-100" style="width: 18rem; border-radius: 10%;">
         <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}

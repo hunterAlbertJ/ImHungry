@@ -277,6 +277,7 @@ div.appendChild(test);
   let foodRow = document.getElementById("food-row");
   foodRow.appendChild(mapFrame)
   })
+  EvalPantry(ingredients);
 
 }
 
@@ -324,19 +325,16 @@ function saveData(data) {
   localStorage.setItem(FAV_KEY, JSON.stringify(data));
 }
 
-// function addMealtoDataBase(mealData) {
-//   let data = loadDataFromDB();
-
-//   //will find mealData in DB that matches incoming meal id. if cannot find will push into db.
-//   let mealInLocalStorage = data.find((data) => data.idMeal === mealData.idMeal);
-
-//   if (!mealInLocalStorage) {
-//     data.push(mealData);
-//   }
-//   //save to database
-//   saveData(data);
-// }
-
+function EvalPantry(ingredients){
+  if(JSON.parse(localStorage.getItem("pantry")) !== null){
+    console.log(JSON.parse(localStorage.getItem("pantry")));
+  } else {
+    console.log("nothing in pantry");
+    let pantryEntry = 'test';
+    localStorage.setItem('pantry', JSON.stringify(pantryEntry));
+  }
+  console.log(ingredients)
+}
 
   function addMealtoDataBase(mealData) {
     let data = loadDataFromDB();

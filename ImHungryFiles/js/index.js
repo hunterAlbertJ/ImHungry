@@ -113,7 +113,7 @@ const mealCard = (meal) => {
   console.log(meal.strMeal)
   const newCard = `
     
-        <div id=${meal.idMeal} class="card" style="width: 18rem;">
+        <div id=${meal.idMeal} class="card h-100" style="width: 18rem; border-radius: 10%;">
         <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
@@ -323,20 +323,6 @@ function loadDataFromDB() {
 function saveData(data) {
   localStorage.setItem(FAV_KEY, JSON.stringify(data));
 }
-
-// function addMealtoDataBase(mealData) {
-//   let data = loadDataFromDB();
-
-//   //will find mealData in DB that matches incoming meal id. if cannot find will push into db.
-//   let mealInLocalStorage = data.find((data) => data.idMeal === mealData.idMeal);
-
-//   if (!mealInLocalStorage) {
-//     data.push(mealData);
-//   }
-//   //save to database
-//   saveData(data);
-// }
-
 
   function addMealtoDataBase(mealData) {
     let data = loadDataFromDB();

@@ -1,6 +1,5 @@
 // import { addMap } from "../MapsApi/mapsRenderer.js";
 
-
 const FAV_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
 const categoriesBtn = document.getElementById("categories-button");
@@ -9,8 +8,6 @@ const searchButton = document.getElementById("searchButton");
 const favoriteButton = document.getElementById("favorite-button");
 const magGlass = document.getElementById("searchButton");
 
-//this can be used to store the input of the search. For now just a placeholder for testing.
-const category = "Seafood";
 
 
 magGlass.addEventListener('click', indivudalSearch)
@@ -277,6 +274,7 @@ div.appendChild(test);
 }
 
 function indivudalSearch(){
+
   let searchValue = document.getElementById("searchBar").value;
 
   fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`)

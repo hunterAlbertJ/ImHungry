@@ -3,7 +3,7 @@
 
 var convert = require('convert-units')
 
-
+console.log(convert(1).from('l').to('ml'))
 // 1000
 const FAV_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
@@ -333,7 +333,8 @@ if(JSON.parse(localStorage.getItem("pantry") === null)){
     ingArr.pop()
    }
   
-   let fractionReg = /[\u00BC-\u00BE\u2150-\u215E]/g
+   let unicodeFraction = /[\u00BC-\u00BE\u2150-\u215E]/g
+   let threeCharFraction = /(?:[1-9][0-9]*|0)\/[1-9][0-9]*/g
    let numReg = /[0-9]/g
 
    if(ingArr[1].match(numReg)){
@@ -344,20 +345,46 @@ if(JSON.parse(localStorage.getItem("pantry") === null)){
       console.log(numHolderArr[0]/numHolderArr[2])
     }
    }
+   console.log(ingArr, "ingarr")
    if(ingArr[2] !== undefined){
     
-    let toMatch = ingArr[2]
+    let toMatch = ingArr[ingArr.length-2]
 
-    if(toMatch.match(fractionReg)){
+    if(toMatch.match(unicodeFraction) && ingArr[ingArr.length-1] == "tbsp"){
       
       let deunicode = toMatch.normalize("NFKD");
-      console.log(deunicode, 'deunize')
       let holderArr = deunicode.split("⁄")
       let secondIntHolder = holderArr[0]/holderArr[1]
       let totalAmount = secondIntHolder + parseInt(ingArr[1])
-     console.log(convert(totalAmount).from('tbs').to('g'));
+     console.log(Math.round(convert(totalAmount).from('Tbs').to('ml')), "tbs to ml");
     }
+     if(toMatch.match(unicodeFraction) && ingArr[ingArr.length-1] == "tsp"){
+      let deunicode = toMatch.normalize("NFKD");
+      let holderArr = deunicode.split("⁄")
+      let secondIntHolder = holderArr[0]/holderArr[1]
+      let totalAmount = secondIntHolder + parseInt(ingArr[1])
+      console.log(Math.round(convert(totalAmount).from('tsp').to('ml')), "tsp to ml");
+    }
+    if(toMatch.match(threeCharFraction) && ingArr[ingArr.length-1] == "tbsp"){
+      
+      let holderArr = toMatch.split("⁄")
+      let secondIntHolder = holderArr[0]/holderArr[1]
+      let totalAmount = secondIntHolder + parseInt(ingArr[1])
+     console.log(Math.round(convert(totalAmount).from('Tbs').to('ml')), "tbs to ml");
+    }
+     if(toMatch.match(threeCharFraction) && ingArr[ingArr.length-1] == "tsp"){
+      
+      let holderArr = threeCharFraction.split("⁄")
+      let secondIntHolder = holderArr[0]/holderArr[1]
+      let totalAmount = secondIntHolder + parseInt(ingArr[1])
+      console.log(Math.round(convert(totalAmount).from('tsp').to('ml')), "tsp to ml");
+    }
+ 
+     
+    
    }
+
+   
    
 
 

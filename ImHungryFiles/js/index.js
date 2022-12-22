@@ -1,6 +1,6 @@
 // import { addMap } from "../MapsApi/mapsRenderer.js";
 
-
+console.log("file loaded");
 const FAV_KEY = "MealKey";
 const randomMealBtn = document.getElementById("random-meal");
 const categoriesBtn = document.getElementById("categories-button");
@@ -113,7 +113,7 @@ const mealCard = (meal) => {
   console.log(meal.strMeal)
   const newCard = `
     
-        <div id=${meal.idMeal} class="card h-100" style="width: 18rem; border-radius: 10%;">
+        <div id=${meal.idMeal} class="card h-100" style="width: 100%;">
         <img src="${meal.strMealThumb}" class="card-img-top" style="border-radius: 25%;" alt="imgae of meal">
         <div class="card-body">
             ${meal.strMeal ? `<h5 class="card-title">${meal.strMeal}</h5>` : ""}
@@ -164,25 +164,49 @@ const fullRecipe = (meal) => {
     const mealCard = ` <div id=${meal.idMeal} data-aos="fade-up" class="col-md-6 mt-3 mb-3">
     <h3>${meal.strMeal} <a><i onclick={favoriteClicked(this)} id="heartButton" style="color: ${colorOfHeart}" class="fa-solid fa-heart"></i></a></h3>
 
-    <img
-      src="${meal.strMealThumb}"
-      class="card-img-top"
-      alt="food image"
-    />
-    <div class="card-body">
-    ${meal.strCategory ? `<p><br><strong>Category:</strong> ${meal.strCategory}</p>` : ''}
-    ${meal.strArea ? `<p><strong>Area:</strong> ${meal.strArea}</p>` : ''}
-    ${meal.strTags ? `<p><strong>Tags:</strong> ${meal.strTags.split(',').join(', ')}</p>` : ''}
+    <div class="card-image">
+      <img
+        src="${meal.strMealThumb}"
+        class="card-img-top"
+        alt="food image"
+      />
+    </div>
+
+    <div class="card-body1">
+      ${meal.strCategory ? `<p><strong><font color="#990099">Category:</strong> ${meal.strCategory}</font></p>` : ''}
+      ${meal.strArea ? `<p><strong><font color="#990099">Area:</strong> ${meal.strArea}</font></p>` : ''}
+      ${meal.strTags ? `<p><strong><font color="#990099">Tags:</strong> ${meal.strTags.split(',').join(', ')}</font><br></p>` : ''}
     </div>
   </div>
 
   <style>
+
+  .card-image{
+    background-color:black;
+    border-radius:5px;
+    overflow:hidden;
+  }
+
+  .card-body1{
+    background-color:white;
+    width: 500;
+    height: auto;
+    padding:2px;
+    border-radius: 5px;
+    margin-top:5px
+  }
     h5{ 
         color: #9900ff;
         font-size: 25px;
         font-style: italic;
     }  
     h3{
+      background-color:black;
+      width: 500;
+      height: auto;
+      padding:2px;
+      border-radius: 5px;
+      margin-top:5px
         font-style: italic;
         font-size: 40px;
     }
@@ -204,13 +228,13 @@ const fullRecipe = (meal) => {
   <div class="col-md-6 mt-3 mb-3">
     <div class="card" style="height: auto">
       <div class="card-body">
-      <h5>Ingredients:</h5>
+      <h5>Ingredients:<hr></h5>
       <ul>
       ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
       </ul>
+      <hr>
       <p1 class="card-text">${meal.strInstructions}</p1>
-      <br>
-      <br>
+      <hr>
       ${meal.strYoutube ? `
             <div class="text-center">
                 <h5>Video Recipe</h5>
